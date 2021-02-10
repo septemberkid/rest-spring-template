@@ -39,7 +39,7 @@ class PublicController(
             val userDetail = userPrincipalService.loadUserByUsername(reqBody.username)
             val token = JWTFactory.produce(
                 "authentication", mapOf(
-                    "userDetail" to userDetail
+                    "username" to userDetail.username
                 )
             )
             return ResponseEntity(RestAuthResponse(HttpStatus.OK.value(), token), HttpStatus.OK)
