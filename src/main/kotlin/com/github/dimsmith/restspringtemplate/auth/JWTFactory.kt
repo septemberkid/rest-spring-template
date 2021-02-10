@@ -1,5 +1,6 @@
-package com.github.dimsmith.restspringtemplate.common
+package com.github.dimsmith.restspringtemplate.auth
 
+import com.github.dimsmith.restspringtemplate.common.JWTException
 import org.jose4j.jwa.AlgorithmConstraints
 import org.jose4j.jws.AlgorithmIdentifiers
 import org.jose4j.jws.JsonWebSignature
@@ -54,11 +55,9 @@ object JWTFactory {
 
         try {
             val jwtClaims = jwtConsumer.processToClaims(jwt)
-            val claim = jwtClaims.claimsMap
-            if (claim["api_key"] != AppConfig.API_KEY) throw Exception("Invalid API Key")
             return jwtClaims.claimsMap
         } catch (ex: Exception) {
-            when(ex) {
+            when (ex) {
                 is InvalidJwtException -> {
                     if (ex.hasExpired()) {
                         throw JWTException("JWT expired at ${ex.jwtContext.jwtClaims.expirationTime}")

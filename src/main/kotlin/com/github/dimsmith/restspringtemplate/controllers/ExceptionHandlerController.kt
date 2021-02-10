@@ -1,5 +1,6 @@
 package com.github.dimsmith.restspringtemplate.controllers
 
+import com.github.dimsmith.restspringtemplate.common.ResponseTitle
 import com.github.dimsmith.restspringtemplate.common.RestException
 import com.github.dimsmith.restspringtemplate.models.RestErrorResponse
 import org.springframework.http.HttpHeaders
@@ -23,6 +24,17 @@ class ExceptionHandlerController : ResponseEntityExceptionHandler() {
                 ex.title,
                 ex.message
             ), ex.status
+        )
+    }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    protected fun handleIllegalArgumentException(ex: IllegalArgumentException): ResponseEntity<RestErrorResponse> {
+        return ResponseEntity(
+            RestErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ResponseTitle.BAD_REQUEST.desc,
+                ex.message ?: ""
+            ), HttpStatus.BAD_REQUEST
         )
     }
 

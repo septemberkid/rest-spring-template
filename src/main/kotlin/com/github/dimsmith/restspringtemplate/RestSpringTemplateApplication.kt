@@ -1,11 +1,16 @@
 package com.github.dimsmith.restspringtemplate
 
+import leaf.LeafDb
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class RestSpringTemplateApplication
+class RestSpringTemplateApplication {
+    init {
+        LeafDb.instance().testConfiguration()
+    }
+}
 
 fun main(args: Array<String>) {
-	runApplication<RestSpringTemplateApplication>(*args)
+    runApplication<RestSpringTemplateApplication>(*args)
 }
